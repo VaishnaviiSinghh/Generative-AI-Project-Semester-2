@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare on Phone - भारत के लोगों का स्वास्थ्य उनके हाथ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --primary: #377fa3;
+            --secondary: #eb5e28;
+            --accent: #258e8e;
+            --light: #f6fcff;
+            --dark: #28527a;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --error: #F44336;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f6fcff 0%, #e6f7ff 100%);
+            font-family: 'Poppins', Arial, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+        }
+        
+        /* Login Page Styles */
+        .login-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23377fa3" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+        
+        .login-container {
+            background: rgba(255, 251, 231, 0.95);
+            border-radius: 22px;
+            box-shadow: 0 10px 40px rgba(34,87,122,0.15);
+            padding: 36px 28px 28px;
+            border: 2.5px solid #f7b267;
+            width: 100%;
+            max-width: 440px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(34,87,122,0.2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .login-header h1 {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(55, 127, 163, 0.3);
+        }
+        
+        .logo i {
+            font-size: 36px;
+            color: white;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        label {
+            font-size: 1em;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        input[type="text"], input[type="number"], input[type="password"] {
+            background: #f7f6fa;
+            border: 2px solid #edd382;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: #31608a;
+            font-size: 1em;
+            outline: none;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus {
+            border-color: var(--accent);
+            background: #fffbe7;
+            box-shadow: 0 0 0 3px rgba(37, 142, 142, 0.2);
+        }
+        
+        .btn {
+            margin-top: 12px;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--secondary), #ff7b4d);
+            border: none;
+            color: #fff;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            box-shadow: 0 4px 15px rgba(235, 94, 40, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(235, 94, 40, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        /* Dashboard Styles - Initially Hidden */
+        .dashboard {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .welcome-message {
+            font-size: 1.3em; /* Increased from 1.1em */
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .user-info-section {
+            flex: 1;
+            min-width: 300px;
+            background: linear-gradient(135deg, #fffbe7 0%, #fff6e5 100%);
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(34,87,122,0.1);
+            padding: 25px;
+            border: 2.5px solid #f7b267;
+            transition: transform 0.3s ease;
+        }
+        
+        .user-info-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .user-info-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.5em; /* Increased from default */
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .user-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed #edd382;
+            transition: background 0.2s ease;
+            border-radius: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .user-detail:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1em; /* Increased from default */
+        }
+        
+        .detail-value {
+            color: var(--secondary);
+            font-weight: 500;
+            font-size: 1.8em; /* Increased from default */
+        }
+        
+        .logout-btn {
+            margin-top: 20px;
+            background: linear-gradient(135deg, var(--primary), #4a9cc5);
+            font-size: 1.1em; /* Increased from default */
+            padding: 14px; /* Increased padding */
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #2a6280, #3d87b0);
+        }
+        
+        .feature-section {
+            flex: 2;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .doctor-block, .emergency-block, .image-block {
+            background: linear-gradient(135deg, #ffeccd 0%, #ffdfad 100%);
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(173, 216, 230, 0.15);
+            padding: 22px 20px;
+            border: 2px solid #fad3a6;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .doctor-block:hover, .emergency-block:hover, .image-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(173, 216, 230, 0.25);
+        }
+        
+        .doctor-block {
+            flex: 2 1 400px; /* Increased from 320px */
+            min-width: 400px; /* Increased from 320px */
+        }
+        
+        .doctor-block h2 {
+            color: var(--accent);
+            margin-bottom: 13px;
+            font-size: 1.7em; /* Increased from 1.3em */
+            font-weight: 700;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .doctor-chat {
+            background: #fff9ee;
+            border-radius: 15px;
+            border: 1.5px solid #ffeedb;
+            min-height: 250px; /* Increased from 120px */
+            font-size: 1.2em; /* Increased from 1em */
+            color: #396670;
+            padding: 24px; /* Increased from 14px */
+            margin-bottom: 12px;
+            max-height: 500px; /* Increased from 200px */
+            overflow-y: auto;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* Make AI responses more prominent */
+        .doctor-chat p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .doctor-chat strong {
+            font-size: 1.1em;
+            color: var(--primary);
+        }
+        
+        .doctor-chat em {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .doctor-chat small {
+            font-size: 0.95em;
+        }
+        
+        .send-box {
+            display: flex;
+            align-items: center;
+            margin-top: 9px;
+        }
+        
+        .send-box input[type="text"] {
+            flex: 1;
+            border: 1.2px solid #fad3a6;
+            border-radius: 10px;
+            padding: 14px 15px; /* Increased padding */
+            font-size: 1.2em; /* Increased from 1em */
+            background: #fff;
+            margin-right: 11px;
+            transition: all 0.3s ease;
+        }
+        
+        .send-box input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 142, 142, 0.2);
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, var(--accent), #32b3b3);
+            color: #fff;
+            border: none;
+            padding: 14px 22px; /* Increased padding */
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 142, 142, 0.3);
+            font-size: 1.2em; /* Increased from default */
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 142, 142, 0.4);
+        }
+        
+        .emergency-block {
+            flex: 1 1 185px;
+            min-width: 170px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .emergency-card {
+            background: linear-gradient(135deg, #fffbe7 0%, #fff4d4 100%);
+            border: 1.5px solid #f8b400;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.2em; /* Increased from 1.13em */
+            color: #1687a7;
+            font-weight: 600;
+            padding: 15px 7px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(248, 180, 0, 0.15);
+        }
+        
+        .emergency-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(248, 180, 0, 0.25);
+        }
+        
+        .emergency-heart {
+            font-size: 2.2em; /* Increased from 2em */
+            color: var(--secondary);
+        }
+        
+        .image-block {
+            flex: 1 1 220px;
+            min-width: 200px;
+        }
+        
+        .image-block h3 {
+            margin-top: 0;
+            font-size: 1.3em; /* Increased from 1.2em */
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .img-upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+            margin-top: 12px;
+        }
+        
+        input[type="file"] {
+            background: #f7fafc;
+            border: 1.2px solid #bae8e8;
+            padding: 9px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+        
+        input[type="file"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 142, 142, 0.2);
+        }
+        
+        .comment-area {
+            resize: vertical;
+            border-radius: 10px;
+            border: 1.2px solid #fad3a6;
+            padding: 12px;
+            font-size: 1em;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .comment-area:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 142, 142, 0.2);
+        }
+        
+        .img-send-btn {
+            background: linear-gradient(135deg, var(--secondary), #ff7b4d);
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(235, 94, 40, 0.3);
+            font-size: 1.1em; /* Increased from default */
+        }
+        
+        .img-send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(235, 94, 40, 0.4);
+        }
+        
+        .tips-section {
+            background: linear-gradient(135deg, #fffef7 0%, #fff8e7 100%);
+            border-radius: 22px;
+            border: 2.5px solid #ffd8ae;
+            box-shadow: 0 10px 30px rgba(255, 188, 114, 0.15);
+            padding: 32px 22px 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .tips-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tips-header {
+            text-align: center;
+            font-size: 2em;
+            color: var(--secondary);
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .tip-row {
+            display: flex;
+            gap: 22px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .tip-card {
+            background: linear-gradient(135deg, #fff6e5 0%, #fff0d6 100%);
+            border-radius: 18px;
+            border: 2px solid #ffe8c7;
+            box-shadow: 0 8px 20px rgba(250, 222, 208, 0.3);
+            padding: 20px 17px 15px;
+            flex: 1 1 265px;
+            min-width: 265px;
+            max-width: 330px;
+            transition: transform 0.3s ease;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tip-card h3 {
+            color: var(--accent);
+            margin: 0 0 7px 0;
+            font-size: 1.3em; /* Increased from 1.2em */
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-card .hin {
+            color: var(--secondary);
+            font-size: 1.1em; /* Increased from 1.03em */
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .tip-card p {
+            margin: 6px 0 0 0;
+            color: #47565e;
+            font-size: 1.1em; /* Increased from 1em */
+            line-height: 1.44;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            font-size: 1.1em; /* Increased from default */
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, var(--success), #66bb6a);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, var(--error), #ef5350);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: var(--dark);
+            font-size: 1em; /* Increased from 0.9em */
+            border-top: 1px solid rgba(40, 82, 122, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .feature-section {
+                flex-direction: column;
+            }
+            
+            .doctor-block {
+                min-width: 100%; /* Full width on mobile */
+            }
+            
+            .tip-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .login-container, .user-info-section {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Login Page - Initially Visible -->
+        <div class="login-page" id="loginPage">
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="logo">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h1>Healthcare on Phone</h1>
+                    <div class="subtitle">भारत के लोगों का स्वास्थ्य उनके हाथ में</div>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Name:</label>
+                        <input id="name" type="text" placeholder="Enter your full name" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-phone"></i> Phone No.:</label>
+                        <input id="phone" type="text" placeholder="Enter phone number" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age"><i class="fas fa-birthday-cake"></i> Age:</label>
+                        <input id="age" type="number" min="1" placeholder="Enter age" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="blood"><i class="fas fa-tint"></i> Blood group:</label>
+                        <input id="blood" type="text" placeholder="e.g. A+, O-" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city"><i class="fas fa-city"></i> City:</label>
+                        <input id="city" type="text" placeholder="City" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password:</label>
+                        <input id="password" type="password" placeholder="Create a password" required />
+                    </div>
+                    
+                    <button class="btn" type="submit">Login <i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Dashboard - Initially Hidden -->
+        <div class="dashboard" id="dashboard">
+            <div class="header">
+                <h1>Healthcare Dashboard</h1>
+                <div class="welcome-message" id="welcomeMessage">Welcome back!</div>
+                <div class="subtitle">भारत के लोगों का स्वास्थ्य उनके हाथ में</div>
+            </div>
+            
+            <div class="main-content">
+                <div class="user-info-section">
+                    <h2><i class="fas fa-user-circle"></i> User Profile</h2>
+                    <div class="user-details" id="userDetails">
+                        <!-- User details will be populated by JavaScript -->
+                    </div>
+                    <button class="btn logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+                
+                <div class="feature-section">
+                    <div class="doctor-block">
+                        <h2><i class="fas fa-robot"></i> डॉक्टर आप के लिए</h2>
+                        <div class="doctor-chat" id="doctorChat">
+                            <p>
+                                नमस्ते!<br>
+                                मैं आपकी स्वास्थ्य संबंधी समस्याओं में मदद करने के लिए यहाँ हूँ।<br>
+                                कृपया अपनी समस्या लिखें।
+                            </p>
+                        </div>
+                        <div class="send-box">
+                            <input type="text" id="chatInput" placeholder="अपनी समस्या लिखे..." />
+                            <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-block">
+                        <div class="emergency-card"><span class="emergency-heart"><i class="fas fa-heartbeat"></i></span> 24/7 Emergency</div>
+                        <div class="emergency-card"><i class="fas fa-ambulance"></i><br>Ambulance<br>108</div>
+                        <div class="emergency-card"><i class="fas fa-fire-extinguisher"></i><br>Fire Emergency<br>101</div>
+                        <div class="emergency-card"><i class="fas fa-shield-alt"></i><br>Police<br>100</div>
+                        <div class="emergency-card"><i class="fas fa-hospital"></i><br>Near Hospital<br>0522-120025</div>
+                    </div>
+                    
+                    <div class="image-block">
+                        <h3><i class="fas fa-file-medical"></i> रिपोर्ट अपलोड करें</h3>
+                        <form class="img-upload-form" id="uploadForm">
+                            <input type="file" accept="image/*" id="reportFile" />
+                            <textarea class="comment-area" id="commentArea" rows="4" placeholder="कोई टिप्पणी जोड़ें..."></textarea>
+                            <button class="img-send-btn" type="submit"><i class="fas fa-cloud-upload-alt"></i> अपलोड करें</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tips-section">
+                <div class="tips-header"><i class="fas fa-lightbulb"></i> Daily Health Tips <span class="hin">स्वास्थ्य सुझाव</span></div>
+                <div class="tip-row">
+                    <div class="tip-card">
+                        <h3><i class="fas fa-tint"></i> Stay Hydrated <span class="hin">पानी पियें</span></h3>
+                        <p>
+                            Drink 8-10 glasses of clean water daily. Add lemon or mint for taste. Boil water if unsure for quality.
+                        </p>
+                    </div>
+                    <div class="tip-card">
+                        <h3><i class="fas fa-walking"></i> Daily Movement <span class="hin">व्यायाम</span></h3>
+                        <p>
+                            30 minutes of walking, yoga or local sport. Even household work counts as physical activity.
+                        </p>
+                    </div>
+                    <div class="tip-card">
+                        <h3><i class="fas fa-apple-alt"></i> Balanced Diet <span class="hin">संतुलित आहार</span></h3>
+                        <p>
+                            Include fruits, vegetables, whole grains and proteins. Eat seasonal local produce for better nutrition.
+                        </p>
+                    </div>
+                </div>
+                <div class="tip-row">
+                    <div class="tip-card">
+                        <h3><i class="fas fa-sun"></i> Safe Sun Exposure <span class="hin">धूप से बचाव</span></h3>
+                        <p>
+                            Avoid direct sun 10AM–4PM. Use hat, umbrella, etc. Some morning sun is beneficial.
+                        </p>
+                    </div>
+                    <div class="tip-card">
+                        <h3><i class="fas fa-brain"></i> Mental Wellness <span class="hin">मानसिक स्वास्थ्य</span></h3>
+                        <p>
+                            Take breaks, practice deep breathing, and connect with loved ones for emotional well-being.
+                        </p>
+                    </div>
+                    <div class="tip-card">
+                        <h3><i class="fas fa-stethoscope"></i> Regular Checkups <span class="hin">नियमित जांच</span></h3>
+                        <p>
+                            Visit healthcare providers for preventive checkups even when feeling healthy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Healthcare on Phone &copy; 2023 | Your Health, Our Priority</p>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const loginPage = document.getElementById('loginPage');
+            const dashboard = document.getElementById('dashboard');
+            const loginForm = document.getElementById('loginForm');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userDetails = document.getElementById('userDetails');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const sendBtn = document.getElementById('sendBtn');
+            const chatInput = document.getElementById('chatInput');
+            const doctorChat = document.getElementById('doctorChat');
+            const uploadForm = document.getElementById('uploadForm');
+            const notification = document.getElementById('notification');
+            
+            // AI Doctor Database
+            const diseaseDatabase = {
+                "fever,cough,cold": {
+                    disease: "Common Cold",
+                    medication: "Paracetamol 500mg - 1 tablet every 6 hours\nRest and hydrate well\nVitamin C supplements",
+                    severity: "low"
+                },
+                "fever,headache,body pain": {
+                    disease: "Viral Fever", 
+                    medication: "Paracetamol 500mg - 1 tablet every 6 hours\nIbuprofen for pain relief\nPlenty of rest and fluids",
+                    severity: "medium"
+                },
+                "loose motion,vomiting,stomach pain": {
+                    disease: "Gastroenteritis",
+                    medication: "ORS solution\nDoxycycline (if bacterial)\nAvoid solid foods for 6 hours\nProbiotics",
+                    severity: "medium"
+                },
+                "chest pain,breathing difficulty": {
+                    disease: "Possible Cardiac Issue - EMERGENCY",
+                    medication: "SEEK IMMEDIATE MEDICAL HELP\nCall ambulance immediately\nDo not exert yourself",
+                    severity: "high"
+                },
+                "headache,nausea,sensitivity to light": {
+                    disease: "Migraine",
+                    medication: "Sumatriptan 50mg (as needed)\nIbuprofen 400mg\nRest in dark room\nStay hydrated",
+                    severity: "medium"
+                },
+                "sneezing,itchy eyes,runny nose": {
+                    disease: "Allergic Rhinitis",
+                    medication: "Cetirizine 10mg once daily\nNasal spray if severe\nAvoid allergens\nSteam inhalation",
+                    severity: "low"
+                },
+                "burning sensation,stomach pain,acid reflux": {
+                    disease: "Acidity/Gastritis",
+                    medication: "Antacids after meals\nAvoid spicy and oily food\nEat small frequent meals\nOmeprazole 20mg before breakfast",
+                    severity: "low"
+                },
+                "joint pain,swelling,stiffness": {
+                    disease: "Arthritis",
+                    medication: "Ibuprofen 400mg for pain\nGlucosamine supplements\nHot/cold compress\nGentle exercises",
+                    severity: "medium"
+                },
+                "sore throat,difficulty swallowing,fever": {
+                    disease: "Strep Throat",
+                    medication: "Antibiotics (as prescribed)\nSalt water gargles\nWarm liquids\nThroat lozenges",
+                    severity: "medium"
+                }
+            };
+
+            // AI Diagnosis Function
+            
+            
+            // Show notification function
+            function showNotification(message, type = 'success') {
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Login form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const age = document.getElementById('age').value;
+                const blood = document.getElementById('blood').value;
+                const city = document.getElementById('city').value;
+                
+                // Update user details in dashboard
+                userDetails.innerHTML = `
+                    <div class="user-detail">
+                        <span class="detail-label"><i class="fas fa-user"></i> Name:</span>
+                        <span class="detail-value">${name}</span>
+                    </div>
+                    <div class="user-detail">
+                        <span class="detail-label"><i class="fas fa-phone"></i> Phone:</span>
+                        <span class="detail-value">${phone}</span>
+                    </div>
+                    <div class="user-detail">
+                        <span class="detail-label"><i class="fas fa-birthday-cake"></i> Age:</span>
+                        <span class="detail-value">${age}</span>
+                    </div>
+                    <div class="user-detail">
+                        <span class="detail-label"><i class="fas fa-tint"></i> Blood Group:</span>
+                        <span class="detail-value">${blood}</span>
+                    </div>
+                    <div class="user-detail">
+                        <span class="detail-label"><i class="fas fa-city"></i> City:</span>
+                        <span class="detail-value">${city}</span>
+                    </div>
+                `;
+                
+                // Update welcome message
+                welcomeMessage.textContent = `Welcome back, ${name}!`;
+                
+                // Hide login page and show dashboard
+                loginPage.style.display = 'none';
+                dashboard.style.display = 'block';
+                
+                // Show success notification
+                showNotification('Login successful! Welcome to Healthcare on Phone.', 'success');
+                
+                // Reset form
+                loginForm.reset();
+            });
+            
+            // Logout functionality
+            logoutBtn.addEventListener('click', function() {
+                // Show login page and hide dashboard
+                loginPage.style.display = 'flex';
+                dashboard.style.display = 'none';
+                
+                // Clear chat
+                doctorChat.innerHTML = `
+                    <p>
+                        नमस्ते!<br>
+                        मैं आपकी स्वास्थ्य संबंधी समस्याओं में मदद करने के लिए यहाँ हूँ।<br>
+                        कृपया अपनी समस्या लिखें।
+                    </p>
+                `;
+                
+                // Show logout notification
+                showNotification('You have been logged out successfully.', 'success');
+            });
+            
+            // Enhanced Doctor AI chat submission
+           // New AI chat submission connecting to local Python backend
+sendBtn.addEventListener('click', async function() {
+    const message = chatInput.value.trim();
+    if (message !== '') {
+        // 1. Display User Message
+        const userMessage = document.createElement('p');
+        userMessage.innerHTML = `<strong>You:</strong> ${message}`;
+        doctorChat.appendChild(userMessage);
+        
+        // 2. Show typing indicator
+        const typingIndicator = document.createElement('p');
+        typingIndicator.id = "typing-indicator";
+        typingIndicator.innerHTML = `<strong>Doctor AI:</strong> Thinking...`;
+        doctorChat.appendChild(typingIndicator);
+        doctorChat.scrollTop = doctorChat.scrollHeight;
+        chatInput.value = '';
+
+        try {
+            // 3. Call your Python Backend
+            const response = await fetch('http://localhost:5000/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            });
+            
+            const data = await response.json();
+
+            // 4. Remove typing indicator and show AI response
+            document.getElementById('typing-indicator').remove();
+            const aiResponse = document.createElement('p');
+            aiResponse.innerHTML = `<strong>Doctor AI:</strong> ${data.reply}`;
+            doctorChat.appendChild(aiResponse);
+            
+        } catch (error) {
+            document.getElementById('typing-indicator').innerHTML = "Error connecting to server.";
+        }
+        
+        doctorChat.scrollTop = doctorChat.scrollHeight;
+    }
+});
+            
+            // Allow pressing Enter in the chat
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendBtn.click();
+                }
+            });
+            
+            // Image upload form
+            uploadForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const fileInput = document.getElementById('reportFile');
+                const comment = document.getElementById('commentArea').value;
+                
+                if (fileInput.files.length > 0) {
+                    showNotification('Your medical report has been uploaded successfully!', 'success');
+                    uploadForm.reset();
+                } else {
+                    showNotification('Please select a file to upload.', 'error');
+                }
+            });
+            
+            // Emergency card click handlers
+            const emergencyCards = document.querySelectorAll('.emergency-card');
+            emergencyCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const cardText = card.textContent.trim();
+                    if (cardText.includes('24/7')) {
+                        showNotification('Connecting you to 24/7 emergency services...', 'success');
+                    } else if (cardText.includes('Ambulance')) {
+                        showNotification('Calling Ambulance service at 108...', 'success');
+                    } else if (cardText.includes('Fire')) {
+                        showNotification('Calling Fire Emergency at 101...', 'success');
+                    } else if (cardText.includes('Police')) {
+                        showNotification('Calling Police at 100...', 'success');
+                    } else if (cardText.includes('Hospital')) {
+                        showNotification('Finding nearest hospital...', 'success');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
